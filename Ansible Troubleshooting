@@ -1,0 +1,8 @@
+Was unable to the reach server via ssh 
+          Steps performed to resolve 
+              > Checked the server rechability via ping - REACHABLE since was connected to the local network
+              > Checked for the ssh service availability if available is it enabled - It was enabled manually (Error in the host was ssh connection)
+              > Checked for firewall and SELinux status 
+              > Checked for the SSH and SSHD Config file and twicked with where we can find #PermitRootlogin  #PubkeyAuthentication
+              > Copied the SSH key to server and then able to login to server.
+
