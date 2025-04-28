@@ -1,0 +1,29 @@
+Some of the most used modules along with its options.
+
+      > YUM or DNF module 
+            
+            Parameter         | Description
+            name              | Name of the package (string or list)
+            state             | Package state: present, absent, latest, installed, removed, downgrade
+            enablerepo        | Enable specific repo temporarily
+            disablerepo       | Disable specific repo temporarily
+            conf_file         | Custom yum config file
+            disable_gpg_check | Disable GPG check (bool)
+            download_only     | Download package only, do not install
+            allow_downgrade   | Allow downgrade of packages
+            lock_timeout      | Timeout (in seconds) for YUM lock
+            install_repoquery | Automatically install dnf-utils or yum-utils if needed (default: yes)
+
+          > Ad-hoc Examples
+
+                          Install multiple packages
+                          ansible all -m yum -a "name=httpd,php,mysql state=present"
+                          
+                          Remove a package
+                          ansible all -m yum -a "name=telnet state=absent"
+                          
+                          Update a package to the latest version
+                          ansible all -m yum -a "name=nginx state=latest"
+                          
+                          Use a specific repository
+                          ansible all -m yum -a "name=nginx enablerepo=epel state=present"
