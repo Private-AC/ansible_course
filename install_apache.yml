@@ -3,38 +3,24 @@
   become: true 
   tasks:
 
-    - name: update repository index
-      ansible.builtin.dnf:
-        update_cache: yes
-      when: ansible_distribution == "CentOS"
-
-    - name: Install Apache2 Package
+    - name: Install Required Package
       ansible.builtin.dnf: 
-        name: httpd
+        name: 
+          - httpd
+          - php
         state: latest
+        update_cache: yes
       when: ansible_distribution == "CentOS"
 
-    - name: Install php Package
-      ansible.builtin.dnf:
-        name: php
-        state: latest
-      when: ansible_distribution == "CentOS"
        
-    - name: update repository index
+    - name: Install Required Package
       ansible.builtin.apt:
+        name: 
+          - apache2
+          - libapache2-mod-php
+        state: latest
         update_cache: yes
       when: ansible_distribution == "Ubuntu"
 
-    - name: Install Apache2 Package
-      ansible.builtin.apt:
-        name: apache2
-        state: latest
-      when: ansible_distribution == "Ubuntu"
-
-    - name: Install php Package
-      ansible.builtin.apt:
-        name: php
-        state: latest
-      when: ansible_distribution == "Ubuntu"
        
        
