@@ -27,3 +27,41 @@ Some of the most used modules along with its options.
                           
                           Use a specific repository
                           ansible all -m yum -a "name=nginx enablerepo=epel state=present"
+
+          > Ansible Tags 
+
+			  Tags are used to run a specific task just in case.
+			  Playbooks can have muliple tags 
+			  Tags allow us to label tasks and then run only those tasks with specified tags.
+
+	  > Ad-hoc Examples 
+		
+			  ansible-playbook --tags <tagname> playbookname (To run tasks within tags)
+
+			  ansible-playbook --skip-tags <tagname> playbookname (To skip a task within the tag)
+
+	  > Copy Module: 
+			
+			  - name: Copy a file from source to destination
+			    ansible.builtin.copy:
+				src: /file/to/be/copied/from/
+				dest: /file/to/be/copied/to/
+				owner: file ownership
+				group: file ownership for a group
+				mode:  file permisstion "0644"
+
+	  > Service Module: 
+			  
+			   - name: Manage the service start, stop, restart.
+			     ansible.builtin.service
+				name: service name
+				state: started or restated or stopped
+
+	  > line in file: 
+			   - name: To make a change in a paticular line of the file 
+			     ansible.biltin.lineinfile
+				path: /path/of/the/file/to/make/change/
+				regexp: advance search expression in linux
+				line: Line to make the change
+			     when: condition to make the change
+			     register: to capture the output\
