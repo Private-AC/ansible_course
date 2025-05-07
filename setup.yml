@@ -4,6 +4,7 @@
   pre_tasks: 
 
     - name: Install Updates for CentOS
+      tags: Centos_update
       ansible.builtin.dnf:
           update_only: yes
           update_cache: yes
@@ -11,6 +12,7 @@
       when: ansible_distribution == "CentOS"
 
     - name: Install updates for Ubuntu
+      tags: Ubuntu_update
       ansible.builtin.apt:
           upgrade: yes
           update_cache: yes
@@ -22,16 +24,53 @@
   tasks:
 
     - name: Install Apache webserver
+      tags: webserver
       ansible.builtin.dnf:
-          name: httpd
+          name: 
+            - httpd
+            - php
           state: latest
       when: ansible_distribution == "CentOS"
+
+    - name: Start Apache Service
+      tags: webserver
+      ansible.builtin.service:
+         name: httpd
+         state: started
+      when: ansible_distribution == "CentOS"
+
+    - name: Change the email in the configuration file 
+      tags: webserver_change
+      ansible.builtin.lineinfile:
+         path: /etc/httpd/conf/httpd.conf
+         regexp: '^ServerAdmin'
+         line: ServerAdmin example@example.com
+           # backup: yes
+      when: ansible_distribution == "CentOS"
+      register: httpd
+
+    - name: restart httpd 
+      tags: restart_httpd
+      ansible.builtin.service:
+         name: httpd
+         state: restarted
+      when: httpd.changed
+        
+    - name: Copy the file ansible server to centos server
+      tags: webserver_copy
+      ansible.builtin.copy:
+        src: ./index.html
+        dest: /var/www/html/
+        owner: root
+        group: root
+        mode: 0644
 
 - hosts: db_server
   become: true
   tasks:
 
-    - name: Install Database 
+    - name: Install Database
+      tags: database 
       ansible.builtin.apt:
           name: mariadb-server
           state: latest
