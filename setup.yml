@@ -65,6 +65,28 @@
         group: root
         mode: 0644
 
+    - name: Creating ansible user on workstations
+      tags: defaults
+      ansible.builtin.user:
+        name: ansible
+        group: root
+        state: present
+
+    - name: add sudoers file for ansible user
+      tags: defaults
+      ansible.builtin.copy:
+        src: sudoer_ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 0440
+
+    - name: adding ssh key for ansible user
+      tags: defaults
+      ansible.builtin.authorized_key:
+        user: ansible
+        key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCmtqvp69pkbo3e2ieFNtTFZ2S/4RrOIAG+hWBot+CQl9rxanb0qU1gyBTm9WPPvLdkvdj3iAt5F6QAMxd7j7+uG8ceUpa7KCkWMHJBl8s8zlXZQ17WApc4j1iBXsZmZ6XQJNmycsj8drYBLE1aY2k95N5vsJXgEh3m+dKAiOylFVhsQqkeYSgulT+m7+2to1IRPV7HEWbX5GI6EnwE6GkE7ag8pGM1UfSwzGvwL6uuruuY8/uWTYYxwpFdT5/zWs8yvleQmfIhYSkDy78JnN4wwO5rUxYhiTdZFaruPCJr9at83c84weezCTYdR8kbwq/DvvxF+uzwdWemPlg3qRsN+1Cu4qmKJUlSuTSTAPQ1fX5dMu4b+46pW2qDRPDEExlmCSkQAZC6ujn93yxrI5ts2adbOoj5j1pRc8C4HSlNu0jvB9n7Aid0u0afb/PU5p5ztKc1oS8mr8cJv+1Cm+E1qgWaEHLhNpmdhVWxtE+JojsNk8qNjvrKIMzT1zwXpc0= root@AnsibleServer"
+
 - hosts: db_server
   become: true
   tasks:
