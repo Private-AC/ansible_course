@@ -1,7 +1,7 @@
 [web_server]
 192.168.0.108 #Centos
-192.168.0.102 #Ubuntu
+192.168.0.104 #Ubuntu
 
 [db_server]
-192.168.0.102 #Ubuntu
+192.168.0.104 #Ubuntu
 

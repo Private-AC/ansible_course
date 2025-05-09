@@ -1,0 +1,6 @@
+    - name: Install Database
+      tags: database 
+      ansible.builtin.apt:
+          name: "{{ mariadb_server }}"
+          state: latest
+      when: ansible_distribution == "Ubuntu"

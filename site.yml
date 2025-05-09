@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  pre_tasks: 
+
+    - name: Install Updates for CentOS
+      tags: Centos_update
+      ansible.builtin.dnf:
+          update_only: yes
+          update_cache: yes
+          state: latest
+      when: ansible_distribution == "CentOS"
+
+    - name: Install updates for Ubuntu
+      tags: Ubuntu_update
+      ansible.builtin.apt:
+          upgrade: yes
+          update_cache: yes
+          state: latest
+      when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  roles:
+    - base
+
+- hosts: web_server
+  become: true
+  roles: 
+    - webserver
+
+- hosts: db_server
+  become: true
+  roles: 
+    - dbserver
+

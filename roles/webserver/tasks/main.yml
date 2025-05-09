@@ -1,0 +1,33 @@
+    - name: Install Apache webserver
+      tags: webserver
+      ansible.builtin.package:
+          name: 
+            - "{{ apache_package  }}" 
+            - "{{ php_package }}"
+          state: latest
+
+    - name: Start Apache Service
+      tags: webserver
+      ansible.builtin.service:
+         name: "{{ apache_service }}"
+         state: started
+
+    - name: Copy the file ansible server to centos server
+      tags: webserver_copy
+      ansible.builtin.copy:
+         src: index.html
+         dest: /var/www/html/
+         owner: root
+         group: root
+         mode: 0644
+           
+    - name: Change the email in the configuration file 
+      tags: webserver_change
+      ansible.builtin.lineinfile:
+         path: /etc/httpd/conf/httpd.conf
+         regexp: '^ServerAdmin'
+         line: ServerAdmin example@example.net
+         backup: yes
+      when: ansible_distribution == "CentOS"
+      notify: httpd_restart
+
